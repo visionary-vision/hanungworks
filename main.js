@@ -28,12 +28,17 @@ function initMap() {
 document.getElementById('start-form').addEventListener('submit', function(e) {
     e.preventDefault();
     let location = document.getElementById('start-location').value;
-    if (!location.trim()) return;
+    if (!location || !location.trim()) return;
+
+    if (!ps) {
+        alert('카카오맵 서비스가 아직 로드되지 않았습니다. 잠시만 기다려주세요.');
+        console.error('Kakao Maps Places service is not initialized.');
+        return;
+    }
 
     // 장소(위치) 검색
     ps.keywordSearch(location, function(data, status) {
         if (status === kakao.maps.services.Status.OK) {
-            // 첫 번째 검색 결과의 좌표로 지도 이동
             let firstResult = data[0];
             let newPos = new kakao.maps.LatLng(firstResult.y, firstResult.x);
             
@@ -41,11 +46,15 @@ document.getElementById('start-form').addEventListener('submit', function(e) {
             map.setCenter(newPos);
             map.setLevel(4);
             
-            // UI 전환: 시작 화면 숨기고 카테고리 메뉴 표시
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('category-menu').classList.remove('hidden');
         } else {
-            alert('입력하신 지역을 찾을 수 없습니다. 다시 시도해주세요.');
+            console.warn('Search status:', status);
+            if (status === kakao.maps.services.Status.ZERO_RESULT) {
+                alert('검색 결과가 없습니다. 다른 지역을 입력해 주세요.');
+            } else {
+                alert('위치 검색 중 오류가 발생했습니다. (상태: ' + status + '). 카카오 개발자 센터에서 도메인 설정을 확인해 보세요.');
+            }
         }
     });
 });
