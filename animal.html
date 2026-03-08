@@ -5,48 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 동물상 테스트</title>
     <link rel="stylesheet" href="animal.css">
-    <!-- TensorFlow & Teachable Machine Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <!-- 헤더 섹션 -->
         <header>
             <div class="logo">🐶 AI Face Test</div>
             <h1>인공지능 동물상 테스트</h1>
-            <p>나의 얼굴은 어떤 동물을 닮았을까?</p>
+            <p>얼굴 사진을 올려 닮은 동물을 찾아보세요!</p>
         </header>
 
-        <!-- 메인 카드 -->
         <main class="test-card">
-            <!-- 테스트 시작 전 화면 -->
-            <div id="upload-area" class="upload-area">
-                <div class="icon">📸</div>
-                <p>사진을 업로드하거나<br>실시간 카메라로 테스트하세요.</p>
-                <div class="button-group">
-                    <button type="button" class="btn-primary" onclick="initWebcam()">실시간 카메라 시작</button>
-                    <label for="image-upload" class="btn-secondary">사진 업로드</label>
+            <!-- 사진 업로드 영역 -->
+            <div id="upload-container">
+                <label for="image-upload" class="upload-box" id="drop-zone">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">
+                        <strong>클릭하거나 사진을 이곳에 끌어다 놓으세요</strong>
+                        <span>JPG, PNG 파일 지원</span>
+                    </div>
                     <input type="file" id="image-upload" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
-                </div>
+                </label>
+                <button type="button" class="btn-webcam-link" onclick="initWebcam()">카메라로 직접 찍기</button>
             </div>
 
-            <!-- 분석 중/결과 화면 -->
+            <!-- 분석 및 결과 화면 -->
             <div id="result-area" class="hidden">
-                <div id="webcam-container"></div>
-                <img id="image-preview" class="hidden" src="#" alt="Preview">
+                <div class="preview-wrapper">
+                    <div id="webcam-container" class="hidden"></div>
+                    <img id="image-preview" src="#" alt="Preview">
+                </div>
                 
                 <div id="loading" class="loading-spinner hidden">
                     <div class="spinner"></div>
-                    <p>AI가 얼굴을 분석 중입니다...</p>
+                    <p>AI가 분석 중입니다...</p>
                 </div>
 
                 <div id="analysis-result" class="hidden">
-                    <h2 id="top-result-title">당신은 강아지상!</h2>
-                    <div id="label-container">
-                        <!-- 결과 프로그레스 바가 여기에 생성됩니다 -->
-                    </div>
-                    <button type="button" class="btn-restart" onclick="window.location.reload()">다시 하기</button>
+                    <h2 id="top-result-title">분석 결과</h2>
+                    <div id="label-container"></div>
+                    <button type="button" class="btn-restart" onclick="window.location.reload()">다른 사진으로 테스트</button>
                 </div>
             </div>
         </main>
