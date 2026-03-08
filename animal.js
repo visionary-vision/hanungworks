@@ -3,14 +3,16 @@ const URL = "https://teachablemachine.withgoogle.com/models/gjRkgVUga/";
 
 let model, webcam, maxPredictions;
 
-// 2. 동물상별 센스 있는 문구 설정 ( bird, pig, cat, sheep, capybara, dog )
+// 2. 동물상별 센스 있는 문구 설정
 const animalDescriptions = {
     "dog": "충성심 강하고 귀여운 🐶강아지상이에요~",
     "cat": "도도하면서도 신비로운 매력의 🐱고양이상이에요!",
     "pig": "복을 가득 불러오는 여유로운 🐷돼지상이에요~",
     "bird": "자유롭고 맑은 영혼을 가진 🐦새상이에요!",
     "sheep": "포근하고 순수한 매력의 🐏양상이에요~",
-    "capybara": "세상 모든 것과 친해질 수 있는 친화력 갑! 🦫카피바라상이에요~"
+    "capybara": "세상 모든 것과 친해질 수 있는 친화력 갑! 🦫카피바라상이에요~",
+    "bear": "듬직하고 포근한 매력의 🐻곰상이에요!",
+    "rabbit": "깜찍하고 발랄한 매력의 🐰토끼상이에요~"
 };
 
 // 드래그 앤 드롭 설정
