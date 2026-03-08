@@ -1,9 +1,9 @@
-// Teachable Machine 공유 모델 URL
-const URL = "https://teachablemachine.withgoogle.com/models/1ill8Rbhc/"; 
+// 1. 최신 Teachable Machine 공유 모델 URL 적용
+const URL = "https://teachablemachine.withgoogle.com/models/gjRkgVUga/"; 
 
 let model, webcam, maxPredictions;
 
-// 1. 동물상별 센스 있는 문구 설정
+// 2. 동물상별 센스 있는 문구 설정 ( bird, pig, cat, sheep, capybara, dog )
 const animalDescriptions = {
     "dog": "충성심 강하고 귀여운 🐶강아지상이에요~",
     "cat": "도도하면서도 신비로운 매력의 🐱고양이상이에요!",
@@ -24,7 +24,7 @@ if (dropZone) {
     dropZone.addEventListener('drop', (e) => handleImageUpload({ target: { files: e.dataTransfer.files } }));
 }
 
-// 2. 모델 로드
+// 모델 로드
 async function loadModel() {
     if (model) return true;
     try {
@@ -38,7 +38,7 @@ async function loadModel() {
     }
 }
 
-// 3. 사진 업로드 처리
+// 사진 업로드 처리
 async function handleImageUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -63,7 +63,7 @@ async function handleImageUpload(event) {
     }
 }
 
-// 4. 실시간 카메라 시작
+// 실시간 카메라 시작
 async function initWebcam() {
     document.getElementById("upload-container").classList.add("hidden");
     document.getElementById("result-area").classList.remove("hidden");
@@ -93,18 +93,15 @@ async function loop() {
     }
 }
 
-// 5. 예측 및 UI 업데이트 (가장 닮은 것만 표시)
+// 예측 및 UI 업데이트
 async function predict(inputElement) {
     const prediction = await model.predict(inputElement);
-    
-    // 확률 순 정렬
     prediction.sort((a, b) => b.probability - a.probability);
 
     const topResult = prediction[0];
     const prob = (topResult.probability * 100).toFixed(0);
     const description = animalDescriptions[topResult.className] || `${topResult.className}상이에요!`;
 
-    // 결과 텍스트 및 확률 바 업데이트
     const resultTitle = document.getElementById("top-result-title");
     resultTitle.innerHTML = description;
 
