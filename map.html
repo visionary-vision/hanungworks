@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>맛집 추천 지도</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Kakao Maps API -->
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=08b440369b07ebe8285ba4f6399ef209&libraries=services"></script>
+</head>
+<body>
+    <!-- 1. 시작 화면: 위치 입력 -->
+    <div id="start-screen">
+        <div class="start-content">
+            <div class="logo">🍴 맛집지도</div>
+            <h1>어느 지역으로 가시나요?</h1>
+            <p>궁금한 지역이나 장소를 입력하면 맛집을 찾아드릴게요.</p>
+            <form id="start-form">
+                <input type="text" id="start-location" placeholder="예: 강남역, 제주도, 홍대" required autofocus>
+                <button type="submit">지도에서 찾기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. 지도 영역 -->
+    <div id="map"></div>
+    
+    <!-- 3. 카테고리 선택 (지도 위에 플로팅) -->
+    <div id="category-menu" class="hidden">
+        <div class="category-title">어떤 음식을 찾으세요?</div>
+        <div class="category-buttons">
+            <button type="button" class="category-btn" data-query="한식">🍚 한식</button>
+            <button type="button" class="category-btn" data-query="중식">🍜 중식</button>
+            <button type="button" class="category-btn" data-query="일식">🍣 일식</button>
+            <button type="button" class="category-btn" data-query="카페">☕ 카페</button>
+        </div>
+        <div class="menu-footer">
+            <button type="button" id="re-search-btn">🔙 지역 다시 입력</button>
+            <button type="button" id="open-inquiry-btn">🤝 맛집 등록 문의</button>
+        </div>
+    </div>
+
+    <!-- 5. 맛집 등록 문의 모달 -->
+    <div id="inquiry-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🤝 맛집 등록 제휴 문의</h2>
+                <button id="close-modal-btn">&times;</button>
+            </div>
+            <form action="https://formspree.io/f/myknzpjr" method="POST">
+                <div class="form-group">
+                    <label>식당 이름</label>
+                    <input type="text" name="restaurant_name" placeholder="예: 한웅식당" required>
+                </div>
+                <div class="form-group">
+                    <label>연락처</label>
+                    <input type="tel" name="phone" placeholder="예: 010-1234-5678" required>
+                </div>
+                <div class="form-group">
+                    <label>이메일</label>
+                    <input type="email" name="_replyto" placeholder="답변받으실 이메일" required>
+                </div>
+                <div class="form-group">
+                    <label>문의 내용</label>
+                    <textarea name="message" rows="4" placeholder="메뉴 정보나 홍보하고 싶은 내용을 적어주세요." required></textarea>
+                </div>
+                <!-- 스팸 방지 및 리다이렉트 설정 (선택사항) -->
+                <input type="text" name="_gotcha" style="display:none">
+                <button type="submit" class="submit-btn">문의 보내기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. 검색 결과 목록 (사이드바/바텀시트) -->
+    <div id="sidebar" class="hidden">
+        <div class="sheet-handle"></div>
+        <div class="sidebar-header">
+            <span id="current-location-text"></span> 맛집 리스트
+            <button id="close-sidebar">×</button>
+        </div>
+        <div id="places-list"></div>
+        <div id="pagination"></div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
