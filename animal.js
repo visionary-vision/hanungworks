@@ -1,7 +1,5 @@
 // 1. 모델 경로 설정 
-// - 공유 링크가 있다면 아래 URL에 따옴표 사이(https://...)를 채워주세요.
-// - 로컬 파일을 쓰려면 "./my_model/" 그대로 두시면 됩니다.
-const URL = "./my_model/"; 
+const URL = "https://teachablemachine.withgoogle.com/models/1ill8Rbhc/"; 
 
 let model, webcam, maxPredictions;
 
