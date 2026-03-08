@@ -1,7 +1,15 @@
-// 1. 모델 경로 설정 
+// Teachable Machine 공유 모델 URL
 const URL = "https://teachablemachine.withgoogle.com/models/1ill8Rbhc/"; 
 
 let model, webcam, maxPredictions;
+
+// 1. 동물상별 센스 있는 문구 설정
+const animalDescriptions = {
+    "dog": "충성심 강하고 귀여운 🐶강아지상이에요~",
+    "cat": "도도하면서도 신비로운 매력의 🐱고양이상이에요!",
+    "pig": "복을 가득 불러오는 여유로운 🐷돼지상이에요~",
+    "bird": "자유롭고 맑은 영혼을 가진 🐦새상이에요!"
+};
 
 // 드래그 앤 드롭 설정
 const dropZone = document.getElementById('drop-zone');
@@ -14,29 +22,21 @@ if (dropZone) {
     dropZone.addEventListener('drop', (e) => handleImageUpload({ target: { files: e.dataTransfer.files } }));
 }
 
-// 2. 모델 로드 함수 (재사용 가능하게 분리)
+// 2. 모델 로드
 async function loadModel() {
-    if (model) return true; // 이미 로드됨
-
+    if (model) return true;
     try {
-        const modelURL = URL + "model.json";
-        const metadataURL = URL + "metadata.json";
-        
-        console.log("Loading model from:", modelURL);
-        model = await tmImage.load(modelURL, metadataURL);
+        model = await tmImage.load(URL + "model.json", URL + "metadata.json");
         maxPredictions = model.getTotalClasses();
-        console.log("Model loaded successfully!");
         return true;
     } catch (e) {
-        console.error("Model Load Error:", e);
-        alert("모델 파일을 찾을 수 없거나 올바르지 않습니다.\n\n해결방법:\n1. my_model 폴더 안에 model.json, metadata.json, weights.bin 파일이 있는지 확인해주세요.\n2. 혹은 Teachable Machine에서 발급받은 공유 링크(https://...)를 코드의 URL 변수에 넣어주세요.");
-        document.getElementById("loading").classList.add("hidden");
-        document.getElementById("upload-container").classList.remove("hidden");
+        console.error(e);
+        alert("모델 로드에 실패했습니다.");
         return false;
     }
 }
 
-// 3. 사진 파일 업로드 처리
+// 3. 사진 업로드 처리
 async function handleImageUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -73,14 +73,12 @@ async function initWebcam() {
             webcam = new tmImage.Webcam(250, 250, true);
             await webcam.setup();
             await webcam.play();
-            
             document.getElementById("loading").classList.add("hidden");
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             document.getElementById("analysis-result").classList.remove("hidden");
             window.requestAnimationFrame(loop);
         } catch (e) {
-            alert("카메라를 시작할 수 없습니다. 권한을 허용해주세요.");
-            console.error(e);
+            alert("카메라 권한을 허용해주세요.");
         }
     }
 }
@@ -93,33 +91,28 @@ async function loop() {
     }
 }
 
-// 5. 예측 및 UI 업데이트 (사용자 제공 로직 적용)
+// 5. 예측 및 UI 업데이트 (가장 닮은 것만 표시)
 async function predict(inputElement) {
     const prediction = await model.predict(inputElement);
     
     // 확률 순 정렬
     prediction.sort((a, b) => b.probability - a.probability);
 
-    // 결과 텍스트 업데이트
+    const topResult = prediction[0];
+    const prob = (topResult.probability * 100).toFixed(0);
+    const description = animalDescriptions[topResult.className] || `${topResult.className}상이에요!`;
+
+    // 결과 텍스트 및 확률 바 업데이트
     const resultTitle = document.getElementById("top-result-title");
-    resultTitle.innerHTML = `당신은 <strong>${prediction[0].className}상</strong>입니다!`;
+    resultTitle.innerHTML = description;
 
-    // 프로그레스 바 업데이트
     const labelContainer = document.getElementById("label-container");
-    labelContainer.innerHTML = "";
-
-    for (let i = 0; i < Math.min(maxPredictions, 5); i++) {
-        const prob = (prediction[i].probability * 100).toFixed(0);
-        labelContainer.innerHTML += `
-            <div class="bar-container">
-                <div class="bar-label">
-                    <span>${prediction[i].className}</span>
-                    <span>${prob}%</span>
-                </div>
-                <div class="bar-bg">
-                    <div class="bar-fill" style="width: ${prob}%"></div>
-                </div>
+    labelContainer.innerHTML = `
+        <div class="main-result-box">
+            <div class="match-percentage">일치율: <span>${prob}%</span></div>
+            <div class="bar-bg">
+                <div class="bar-fill" style="width: ${prob}%"></div>
             </div>
-        `;
-    }
+        </div>
+    `;
 }
