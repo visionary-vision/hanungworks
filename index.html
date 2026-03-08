@@ -3,58 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 동물상 테스트</title>
-    <link rel="stylesheet" href="animal.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <title>한웅웍스 - AI & 지도 서비스</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body {
+            background: #fdfdfd;
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #ff8c00;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+        }
+        .welcome-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+        .welcome-text p {
+            color: #888;
+            margin-bottom: 50px;
+            font-size: 0.95rem;
+        }
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .service-card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 24px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #f0f0f0;
+            text-align: left;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.15);
+            border-color: #ff8c00;
+        }
+        .service-card .icon {
+            font-size: 2.5rem;
+            background: #f8f9fa;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+        }
+        .service-info h2 {
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+        .service-info p {
+            font-size: 0.85rem;
+            color: #999;
+        }
+        .footer {
+            margin-top: 60px;
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="logo">🐶 AI Face Test</div>
-            <h1>인공지능 동물상 테스트</h1>
-            <p>얼굴 사진을 올려 닮은 동물을 찾아보세요!</p>
-        </header>
+        <div class="logo">🍴 HANUNG WORKS</div>
+        
+        <div class="welcome-text">
+            <h1>무엇을 도와드릴까요?</h1>
+            <p>원하시는 서비스를 선택해주세요.</p>
+        </div>
 
-        <main class="test-card">
-            <!-- 사진 업로드 영역 -->
-            <div id="upload-container">
-                <label for="image-upload" class="upload-box" id="drop-zone">
-                    <div class="upload-icon">📁</div>
-                    <div class="upload-text">
-                        <strong>클릭하거나 사진을 이곳에 끌어다 놓으세요</strong>
-                        <span>JPG, PNG 파일 지원</span>
-                    </div>
-                    <input type="file" id="image-upload" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
-                </label>
-                <button type="button" class="btn-webcam-link" onclick="initWebcam()">카메라로 직접 찍기</button>
-            </div>
-
-            <!-- 분석 및 결과 화면 -->
-            <div id="result-area" class="hidden">
-                <div class="preview-wrapper">
-                    <div id="webcam-container" class="hidden"></div>
-                    <img id="image-preview" src="#" alt="Preview">
+        <div class="service-list">
+            <!-- 맛집 지도 링크 -->
+            <a href="map.html" class="service-card">
+                <div class="icon">📍</div>
+                <div class="service-info">
+                    <h2>전국 맛집지도</h2>
+                    <p>내 주변 맛있는 식당을 찾아보세요</p>
                 </div>
-                
-                <div id="loading" class="loading-spinner hidden">
-                    <div class="spinner"></div>
-                    <p>AI가 분석 중입니다...</p>
-                </div>
+            </a>
 
-                <div id="analysis-result" class="hidden">
-                    <h2 id="top-result-title">분석 결과</h2>
-                    <div id="label-container"></div>
-                    <button type="button" class="btn-restart" onclick="window.location.reload()">다른 사진으로 테스트</button>
+            <!-- 동물상 테스트 링크 -->
+            <a href="animal.html" class="service-card">
+                <div class="icon">🐶</div>
+                <div class="service-info">
+                    <h2>AI 동물상 테스트</h2>
+                    <p>인공지능이 분석하는 나의 닮은 동물상</p>
                 </div>
-            </div>
-        </main>
+            </a>
+        </div>
 
-        <footer>
-            <p>© 2026 HanungWorks AI. All rights reserved.</p>
-        </footer>
+        <div class="footer">
+            © 2026 HanungWorks. All rights reserved.
+        </div>
     </div>
-
-    <script src="animal.js"></script>
 </body>
 </html>
