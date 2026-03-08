@@ -135,7 +135,7 @@ body, html {
 .category-buttons {
     display: flex;
     gap: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .category-btn {
@@ -155,13 +155,23 @@ body, html {
     transform: translateY(-2px);
 }
 
-#re-search-btn {
+.menu-footer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#re-search-btn, #open-inquiry-btn {
     background: none;
     border: none;
     color: #888;
     font-size: 12px;
     cursor: pointer;
     text-decoration: underline;
+}
+
+#open-inquiry-btn {
+    color: #ff8c00;
 }
 
 /* 4. 사이드바 (검색 결과) */
@@ -234,3 +244,93 @@ body, html {
 
 .info-window { padding: 10px; font-size: 13px; }
 .info-window .title { font-weight: bold; }
+
+/* 5. 문의 모달 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.modal-header h2 {
+    font-size: 1.2rem;
+    color: #1a1a1a;
+}
+
+#close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #666;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #ff8c00;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: #ff8c00;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background: #e67e00;
+}

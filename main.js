@@ -117,6 +117,26 @@ document.getElementById('close-sidebar').addEventListener('click', function() {
     document.getElementById('sidebar').classList.add('hidden');
 });
 
+// 6. 문의 모달 제어
+const inquiryModal = document.getElementById('inquiry-modal');
+const openModalBtn = document.getElementById('open-inquiry-btn');
+const closeModalBtn = document.getElementById('close-modal-btn');
+
+openModalBtn.addEventListener('click', () => {
+    inquiryModal.classList.remove('hidden');
+});
+
+closeModalBtn.addEventListener('click', () => {
+    inquiryModal.classList.add('hidden');
+});
+
+// 모달 바깥쪽 클릭 시 닫기
+window.addEventListener('click', (e) => {
+    if (e.target === inquiryModal) {
+        inquiryModal.classList.add('hidden');
+    }
+});
+
 // 공통 검색 콜백 및 마커 관리 함수들
 function placesSearchCB(data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {

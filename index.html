@@ -34,7 +34,41 @@
             <button type="button" class="category-btn" data-query="일식">🍣 일식</button>
             <button type="button" class="category-btn" data-query="카페">☕ 카페</button>
         </div>
-        <button type="button" id="re-search-btn">🔙 지역 다시 입력</button>
+        <div class="menu-footer">
+            <button type="button" id="re-search-btn">🔙 지역 다시 입력</button>
+            <button type="button" id="open-inquiry-btn">🤝 맛집 등록 문의</button>
+        </div>
+    </div>
+
+    <!-- 5. 맛집 등록 문의 모달 -->
+    <div id="inquiry-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🤝 맛집 등록 제휴 문의</h2>
+                <button id="close-modal-btn">&times;</button>
+            </div>
+            <form action="https://formspree.io/f/myknzpjr" method="POST">
+                <div class="form-group">
+                    <label>식당 이름</label>
+                    <input type="text" name="restaurant_name" placeholder="예: 한웅식당" required>
+                </div>
+                <div class="form-group">
+                    <label>연락처</label>
+                    <input type="tel" name="phone" placeholder="예: 010-1234-5678" required>
+                </div>
+                <div class="form-group">
+                    <label>이메일</label>
+                    <input type="email" name="_replyto" placeholder="답변받으실 이메일" required>
+                </div>
+                <div class="form-group">
+                    <label>문의 내용</label>
+                    <textarea name="message" rows="4" placeholder="메뉴 정보나 홍보하고 싶은 내용을 적어주세요." required></textarea>
+                </div>
+                <!-- 스팸 방지 및 리다이렉트 설정 (선택사항) -->
+                <input type="text" name="_gotcha" style="display:none">
+                <button type="submit" class="submit-btn">문의 보내기</button>
+            </form>
+        </div>
     </div>
 
     <!-- 4. 검색 결과 목록 (사이드바) -->
