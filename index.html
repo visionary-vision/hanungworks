@@ -1,14 +1,39 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>맛집 추천 지도</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Kakao Maps API (with libraries=services for Places search) -->
+    <!-- YOUR_APP_KEY_HERE 부분을 카카오 개발자 센터에서 발급받은 JavaScript 키로 교체해야 합니다 -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY_HERE&libraries=services"></script>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+    <div id="map"></div>
+    
+    <div id="sidebar">
+        <div class="search-container">
+            <h2>맛집 찾기</h2>
+            <form id="search-form">
+                <input type="text" id="keyword" placeholder="강남역 맛집, 서울 카페..." required>
+                <button type="submit">검색</button>
+            </form>
+            
+            <div class="categories">
+                <button type="button" class="category-btn" data-query="한식">🍚 한식</button>
+                <button type="button" class="category-btn" data-query="중식">🍜 중식</button>
+                <button type="button" class="category-btn" data-query="일식">🍣 일식</button>
+                <button type="button" class="category-btn" data-query="카페">☕ 카페</button>
+            </div>
+        </div>
+        
+        <div id="places-list">
+            <!-- 검색 결과가 여기에 표시됩니다 -->
+        </div>
+        <div id="pagination"></div>
+    </div>
+
+    <script src="main.js"></script>
 </body>
 </html>
